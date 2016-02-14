@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>GitHub News</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <header class="page-header">
+        <h1>GitHub News</h1>
+      </header>
+      <main>
+        <% feed.each do |(repo, stargazers)| %>
+          <section>
+            <h1><a href="https://github.com/<%= repo.object_repo %>"><%= repo.object_repo %></a></h1>
+
+            <p><%= repo.description %></p>
+
+            <dl class="dl-horizontal">
+              <dt>Language</dt>
+              <dd><%= repo.language %></dd>
+              <dt># of Issues</dt>
+              <dd><%= repo.open_issues_count %></dd>
+              <dt>Total stargazers</dt>
+              <dd><%= repo.stargazers_count %></dd>
+              <dt>Recent stargazers</dt>
+              <dd>
+                <ul class="list-inline">
+                  <% stargazers.each do |event| %>
+                    <li>
+                      <a href="https://github.com/<%= event.actor %>">
+                        <img src="<%= event.thumbnail.url %>">
+                      </a>
+                    </li>
+                  <% end %>
+                </ul>
+              </dd>
+            </dl>
+          </section>
+        <% end %>
+      </main>
+    </div>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  </body>
+</html>

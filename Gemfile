@@ -1,7 +1,12 @@
 source 'https://rubygems.org'
 
 gem 'activesupport'
+gem 'erubis'
 gem 'faraday'
 gem 'faraday-http-cache'
+gem 'foreman'
+gem 'nokogiri'
 gem 'octokit'
+gem 'passenger'
 gem 'pry'
+gem 'sinatra'
