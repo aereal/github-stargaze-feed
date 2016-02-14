@@ -16,5 +16,18 @@ module Zodiac
         super(app, options)
       end
     end
+
+    class NeverExpire < ::Faraday::Middleware
+      def initialize(app)
+        super
+      end
+
+      def call(env)
+        res = @app.call(env)
+        res.headers['max-age'] = 86400 * 365 * 10
+        res.headers["Expires"] = "Thu, 14 Nov 2024 01:44:36 GMT"
+        res
+      end
+    end
   end
 end

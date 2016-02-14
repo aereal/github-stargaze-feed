@@ -5,6 +5,7 @@ require 'yaml'
 require 'zodiac/middleware/cache'
 
 module Zodiac
+
   module Service
     module GitHub
       def self.new(host, with_cache: false, logging: false)
@@ -13,6 +14,7 @@ module Zodiac
         Octokit::Client.new(access_token: github_config.fetch('oauth_token')).tap do |this|
           stack = Faraday::RackBuilder.new do |builder|
             builder.use Zodiac::Middleware::Cache if with_cache
+            builder.use Zodiac::Middleware::NeverExpire if with_cache
             builder.response :logger if logging
             builder.adapter Faraday.default_adapter
           end
