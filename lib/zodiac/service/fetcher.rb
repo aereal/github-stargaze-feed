@@ -1,9 +1,9 @@
 require 'faraday'
 require 'logger'
 
-require 'stargazer/middleware/cache'
+require 'zodiac/middleware/cache'
 
-module Stargazer
+module Zodiac
   module Service
     module Fetcher
       def self.new(logger = Logger.new($stderr))
@@ -13,7 +13,7 @@ module Stargazer
           },
         }
         Faraday.new(opts) do |c|
-          c.use Stargazer::Middleware::Cache
+          c.use Zodiac::Middleware::Cache
           c.adapter Faraday.default_adapter
         end
       end

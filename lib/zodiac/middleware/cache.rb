@@ -2,7 +2,7 @@ require 'active_support/cache'
 require 'faraday-http-cache'
 require 'logger'
 
-module Stargazer
+module Zodiac
   module Middleware
     class Cache < ::Faraday::HttpCache
       def initialize(app, options = {})
