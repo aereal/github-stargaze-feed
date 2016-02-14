@@ -2,6 +2,7 @@ require 'sinatra/base'
 require 'erubis'
 require 'nokogiri'
 require 'parallel'
+require 'time'
 
 require 'zodiac/service/fetcher'
 require 'zodiac/service/github'
@@ -30,7 +31,10 @@ module Zodiac
         a.load!(octokit.repo(a.object_repo))
       end
 
-      feed = activities.group_by(&:object_repo).each_entry.map {|repo_name, gazers| [gazers.first, gazers] }
+      feed = activities.
+        group_by(&:object_repo).
+        each_entry.map {|repo_name, gazers| [gazers.first, gazers] }.
+        sort_by {|(repo, _)| Time.parse(repo.published).to_i }
 
       erb :activities, locals: { feed: feed }
     end
