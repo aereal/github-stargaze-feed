@@ -1,7 +1,7 @@
-require 'active_support/cache'
 require 'faraday'
-require 'faraday-http-cache'
 require 'logger'
+
+require 'stargazer/middleware/cache'
 
 module Stargazer
   module Service
@@ -12,9 +12,8 @@ module Stargazer
             'User-Agent' => "#{File.basename(`git rev-parse --show-toplevel`.strip)}/#{`git rev-parse --short HEAD`.strip}"
           },
         }
-        cache_store = ActiveSupport::Cache.lookup_store(:file_store, 'tmp/cache')
         Faraday.new(opts) do |c|
-          c.use :http_cache, store: cache_store, logger: logger, serializer: Marshal
+          c.use Stargazer::Middleware::Cache
           c.adapter Faraday.default_adapter
         end
       end
