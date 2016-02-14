@@ -5,8 +5,11 @@ require 'octokit'
 require 'pry'
 require 'yaml'
 
-hub_config = YAML.load_file(File.expand_path('~/.config/hub'))
-github_config = hub_config.fetch('github.com', []).first or abort 'No configuration found'
-octokit = Octokit::Client.new(access_token: github_config.fetch('oauth_token'))
+lib = File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
-octokit.pry
+require 'zodiac/service/fetcher'
+require 'zodiac/service/github'
+require 'zodiac/service/github/activity_feed'
+
+Zodiac::Service::GitHub.new.pry
