@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup' unless defined?(Bundler)
+require 'octokit'
+require 'pry'
+require 'yaml'
+
+hub_config = YAML.load_file(File.expand_path('~/.config/hub'))
+github_config = hub_config.fetch('github.com', []).first or abort 'No configuration found'
+octokit = Octokit::Client.new(access_token: github_config.fetch('oauth_token'))
+
+octokit.pry
