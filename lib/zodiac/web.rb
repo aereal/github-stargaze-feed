@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'erubis'
 require 'nokogiri'
+require 'parallel'
 
 require 'zodiac/service/fetcher'
 require 'zodiac/service/github'
@@ -10,6 +11,7 @@ module Zodiac
   class Web < ::Sinatra::Base
     enable :logging
     set :views, File.join(`git rev-parse --show-toplevel`.strip, 'templates')
+    set :api_concurrency, 4
 
     get '/@my/activities' do
       feed_url = params['url'] or halt 400, 'No url given'
@@ -24,7 +26,7 @@ module Zodiac
 
       octokit = Zodiac::Service::GitHub.new('github.com', with_cache: true)
 
-      activities.each do |a|
+      Parallel.each(activities, in_threads: settings.api_concurrency) do |a|
         a.load!(octokit.repo(a.object_repo))
       end
 

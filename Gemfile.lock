@@ -26,6 +26,7 @@ GEM
       mini_portile2 (~> 2.0.0.rc2)
     octokit (4.2.0)
       sawyer (~> 0.6.0, >= 0.5.3)
+    parallel (1.6.1)
     passenger (5.0.24)
       rack
       rake (>= 0.8.1)
@@ -62,6 +63,7 @@ DEPENDENCIES
   foreman
   nokogiri
   octokit
+  parallel
   passenger
   pry
   sinatra
